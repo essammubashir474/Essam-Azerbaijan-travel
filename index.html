@@ -2109,10 +2109,15 @@
 
             <div class="schedule-item">
                 <span class="time-badge" contenteditable="true">6:30-7:30 PM</span>
-                <h3 contenteditable="true">Arrival & Car Rental Pickup</h3>
+                <h3 contenteditable="true">
+                    Arrival & Car Rental Pickup
+                    <button class="info-btn" onclick="showBookingInfo('car-rental')">ℹ️ Info</button>
+                </h3>
                 <ul>
                     <li contenteditable="true">Clear customs and immigration</li>
                     <li contenteditable="true">Pick up rental car at Heydar Aliyev International Airport</li>
+                    <li contenteditable="true">Reservation #: 1086 (Buta Rental Cars)</li>
+                    <li contenteditable="true">Vehicle: Hyundai Accent</li>
                     <li contenteditable="true">Distance to hotel: 25 km, 35-40 minutes drive</li>
                 </ul>
             </div>
@@ -3782,11 +3787,16 @@
         
         // Restore from autosave on page load
         window.addEventListener('load', () => {
+            // Disable all contenteditable by default - only enable when Edit Mode is turned on
+            document.querySelectorAll('[contenteditable="true"]').forEach(el => {
+                el.setAttribute('contenteditable', 'false');
+            });
+
             const autosaved = localStorage.getItem('azerbaijan-itinerary-autosave');
             if (autosaved && confirm('Found auto-saved changes. Would you like to restore them?')) {
                 document.querySelector('.container').innerHTML = autosaved;
             }
-            
+
             // Force mobile control center to be visible on mobile
             if (window.innerWidth <= 480 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
                 const mobileCenter = document.getElementById('mobileControlCenter');
@@ -3970,6 +3980,23 @@
     <!-- Booking Data -->
     <script>
         const bookingData = {
+            'car-rental': {
+                name: 'Buta Rental Cars - Hyundai Accent',
+                bookingNumber: '1086',
+                pin: null,
+                vehicle: 'Hyundai Accent (or similar)',
+                rentalDates: '15 Nov - 25 Nov 2025 (11 days)',
+                pickupLocation: 'Heydar Aliyev International Airport',
+                pickupAddress: 'Baku, Azerbaijan',
+                price: '450 AZN (~$265 USD)',
+                deposit: '200 AZN (refundable)',
+                status: 'Confirmed',
+                phone: '+994-502091072',
+                email: 'info@butarentalcars.az',
+                website: 'www.butarentalcars.az',
+                notes: '⚠️ Important:<br>• Bring valid driver\'s license and passport/ID at pickup<br>• Deposit required at start of rental<br>• Contact at least 24 hours in advance for any changes',
+                mapUrl: 'https://maps.app.goo.gl/xDdeA9AVAybpNT5Y9'
+            },
             'day1-hotel': {
                 name: 'Boutique Hotel Baku',
                 bookingNumber: '1567946832075487',
@@ -4083,107 +4110,141 @@
             document.body.style.overflow = '';
         }
 
-        function generateBookingContent(hotel) {
+        function generateBookingContent(booking) {
             let html = '';
+            const isCarRental = booking.vehicle !== undefined;
 
             // Status
             html += `<div class="booking-detail-row">
                 <div class="booking-detail-label">📋 Status</div>
                 <div class="booking-detail-value">
-                    <span class="status-badge status-confirmed">✓ ${hotel.status}</span>
+                    <span class="status-badge status-confirmed">✓ ${booking.status}</span>
                 </div>
             </div>`;
 
-            // Booking Number
+            // Booking Number / Reservation Number
             html += `<div class="booking-detail-row">
-                <div class="booking-detail-label">🔢 Booking Number</div>
+                <div class="booking-detail-label">${isCarRental ? '🎫 Reservation Number' : '🔢 Booking Number'}</div>
                 <div class="booking-detail-value">
-                    <span>${hotel.bookingNumber}</span>
-                    <button class="copy-btn" onclick="copyToClipboard('${hotel.bookingNumber}', this)">Copy</button>
+                    <span>${booking.bookingNumber}</span>
+                    <button class="copy-btn" onclick="copyToClipboard('${booking.bookingNumber}', this)">Copy</button>
                 </div>
             </div>`;
 
-            // PIN
-            html += `<div class="booking-detail-row">
-                <div class="booking-detail-label">🔑 PIN</div>
-                <div class="booking-detail-value">
-                    <span>${hotel.pin}</span>
-                    <button class="copy-btn" onclick="copyToClipboard('${hotel.pin}', this)">Copy</button>
-                </div>
-            </div>`;
-
-            // Room Type
-            html += `<div class="booking-detail-row">
-                <div class="booking-detail-label">🛏️ Room Type</div>
-                <div class="booking-detail-value">${hotel.room}</div>
-            </div>`;
-
-            // Check-in
-            html += `<div class="booking-detail-row">
-                <div class="booking-detail-label">⏰ Check-in</div>
-                <div class="booking-detail-value">${hotel.checkIn}</div>
-            </div>`;
-
-            // Check-out
-            html += `<div class="booking-detail-row">
-                <div class="booking-detail-label">⏰ Check-out</div>
-                <div class="booking-detail-value">${hotel.checkOut}</div>
-            </div>`;
-
-            // Price
-            html += `<div class="booking-detail-row">
-                <div class="booking-detail-label">💰 Price</div>
-                <div class="booking-detail-value">${hotel.price}</div>
-            </div>`;
-
-            // Meals
-            if (hotel.meals) {
+            // PIN (hotels only)
+            if (booking.pin) {
                 html += `<div class="booking-detail-row">
-                    <div class="booking-detail-label">🍳 Meals</div>
-                    <div class="booking-detail-value">${hotel.meals}</div>
+                    <div class="booking-detail-label">🔑 PIN</div>
+                    <div class="booking-detail-value">
+                        <span>${booking.pin}</span>
+                        <button class="copy-btn" onclick="copyToClipboard('${booking.pin}', this)">Copy</button>
+                    </div>
                 </div>`;
             }
 
-            // Address
-            html += `<div class="booking-detail-row">
-                <div class="booking-detail-label">📍 Address</div>
-                <div class="booking-detail-value">${hotel.address}</div>
-            </div>`;
+            if (isCarRental) {
+                // Car Rental specific fields
+                html += `<div class="booking-detail-row">
+                    <div class="booking-detail-label">🚗 Vehicle</div>
+                    <div class="booking-detail-value">${booking.vehicle}</div>
+                </div>`;
+
+                html += `<div class="booking-detail-row">
+                    <div class="booking-detail-label">📅 Rental Period</div>
+                    <div class="booking-detail-value">${booking.rentalDates}</div>
+                </div>`;
+
+                html += `<div class="booking-detail-row">
+                    <div class="booking-detail-label">📍 Pickup Location</div>
+                    <div class="booking-detail-value">${booking.pickupLocation}<br><small>${booking.pickupAddress}</small></div>
+                </div>`;
+
+                html += `<div class="booking-detail-row">
+                    <div class="booking-detail-label">💰 Rental Price</div>
+                    <div class="booking-detail-value">${booking.price}</div>
+                </div>`;
+
+                html += `<div class="booking-detail-row">
+                    <div class="booking-detail-label">💳 Deposit</div>
+                    <div class="booking-detail-value">${booking.deposit}</div>
+                </div>`;
+            } else {
+                // Hotel specific fields
+                html += `<div class="booking-detail-row">
+                    <div class="booking-detail-label">🛏️ Room Type</div>
+                    <div class="booking-detail-value">${booking.room}</div>
+                </div>`;
+
+                html += `<div class="booking-detail-row">
+                    <div class="booking-detail-label">⏰ Check-in</div>
+                    <div class="booking-detail-value">${booking.checkIn}</div>
+                </div>`;
+
+                html += `<div class="booking-detail-row">
+                    <div class="booking-detail-label">⏰ Check-out</div>
+                    <div class="booking-detail-value">${booking.checkOut}</div>
+                </div>`;
+
+                html += `<div class="booking-detail-row">
+                    <div class="booking-detail-label">💰 Price</div>
+                    <div class="booking-detail-value">${booking.price}</div>
+                </div>`;
+
+                if (booking.meals) {
+                    html += `<div class="booking-detail-row">
+                        <div class="booking-detail-label">🍳 Meals</div>
+                        <div class="booking-detail-value">${booking.meals}</div>
+                    </div>`;
+                }
+
+                html += `<div class="booking-detail-row">
+                    <div class="booking-detail-label">📍 Address</div>
+                    <div class="booking-detail-value">${booking.address}</div>
+                </div>`;
+            }
 
             // Phone
             html += `<div class="booking-detail-row">
                 <div class="booking-detail-label">📞 Phone</div>
-                <div class="booking-detail-value">${hotel.phone}</div>
+                <div class="booking-detail-value">${booking.phone}</div>
             </div>`;
 
             // Email
-            if (hotel.email) {
+            if (booking.email) {
                 html += `<div class="booking-detail-row">
                     <div class="booking-detail-label">📧 Email</div>
-                    <div class="booking-detail-value" style="word-break: break-all;">${hotel.email}</div>
+                    <div class="booking-detail-value" style="word-break: break-all;">${booking.email}</div>
+                </div>`;
+            }
+
+            // Website (car rental only)
+            if (booking.website) {
+                html += `<div class="booking-detail-row">
+                    <div class="booking-detail-label">🌐 Website</div>
+                    <div class="booking-detail-value"><a href="https://${booking.website}" target="_blank" style="color: var(--primary-blue);">${booking.website}</a></div>
                 </div>`;
             }
 
             // Notes
-            if (hotel.notes) {
+            if (booking.notes) {
                 html += `<div class="booking-note">
-                    <strong>⚠️ Important:</strong><br>${hotel.notes}
+                    ${booking.notes}
                 </div>`;
             }
 
             // Action Buttons
             html += `<div class="booking-actions">
-                <a href="tel:${hotel.phone}" class="action-btn action-btn-call">
-                    📞 Call Hotel
+                <a href="tel:${booking.phone}" class="action-btn action-btn-call">
+                    📞 Call ${isCarRental ? 'Rental' : 'Hotel'}
                 </a>`;
 
-            if (hotel.email) {
-                html += `<a href="mailto:${hotel.email}" class="action-btn action-btn-email">
+            if (booking.email) {
+                html += `<a href="mailto:${booking.email}" class="action-btn action-btn-email">
                     📧 Email
                 </a>`;
             }
 
-            html += `<a href="${hotel.mapUrl}" target="_blank" class="action-btn action-btn-map">
+            html += `<a href="${booking.mapUrl}" target="_blank" class="action-btn action-btn-map">
                     🗺️ View Map
                 </a>
             </div>`;
