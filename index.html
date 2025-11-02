@@ -1613,7 +1613,27 @@
     <div id="simpleMobileOverlay" onclick="toggleSimpleMenu()"></div>
     
     <div id="simpleMobilePanel">
-        <h3 style="text-align: center; margin-bottom: 20px;">Quick Controls</h3>
+        <!-- Mobile Live Widget Section -->
+        <div id="mobileLiveSection" style="background: linear-gradient(135deg, #0092BC 0%, #00AF66 100%); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center; color: white;">
+            <div id="mobileLiveTime" style="font-size: 2rem; font-weight: bold; margin-bottom: 5px;">00:00</div>
+            <div id="mobileLiveDate" style="font-size: 0.9rem; opacity: 0.95; margin-bottom: 15px;">Loading...</div>
+
+            <div id="mobileTripStatus" style="background: rgba(255,255,255,0.2); border-radius: 8px; padding: 12px; margin-bottom: 10px;">
+                <div id="mobileCurrentActivity" style="font-size: 0.95rem; font-weight: 500;">
+                    🎉 Get Ready!<br>
+                    <span style="font-size: 0.85rem; opacity: 0.9;">Your Azerbaijan adventure begins soon!</span>
+                </div>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.2); border-radius: 8px; padding: 8px;">
+                <div style="height: 6px; background: rgba(255,255,255,0.3); border-radius: 3px; overflow: hidden;">
+                    <div id="mobileTripProgress" style="height: 100%; background: white; width: 0%; transition: width 0.3s ease;"></div>
+                </div>
+                <div id="mobileTripDays" style="font-size: 0.75rem; margin-top: 5px; opacity: 0.9;">Trip starts in 12 days</div>
+            </div>
+        </div>
+
+        <h3 style="text-align: center; margin-bottom: 15px; color: #2C3E50;">Quick Controls</h3>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
             <button onclick="toggleEditMode(); toggleSimpleMenu();" style="padding: 12px; background: #0092BC; color: white; border: none; border-radius: 8px;">✏️ Edit</button>
             <button onclick="window.print(); toggleSimpleMenu();" style="padding: 12px; background: #00AF66; color: white; border: none; border-radius: 8px;">📄 PDF</button>
@@ -2655,22 +2675,24 @@
         // Update mobile live widget
         function updateMobileLiveWidget() {
             const now = getAzerbaijanTime();
-            
+
             // Update time and date
             const mobileTimeEl = document.getElementById('mobileLiveTime');
             const mobileDateEl = document.getElementById('mobileLiveDate');
             const mobileProgressEl = document.getElementById('mobileTripProgress');
             const mobileActivityEl = document.getElementById('mobileCurrentActivity');
-            
+            const mobileTripDaysEl = document.getElementById('mobileTripDays');
+
             if (mobileTimeEl) mobileTimeEl.textContent = formatTime(now);
-            
+
             // Check trip status
             if (now < TRIP_CONFIG.startDate) {
                 // Before trip
                 const daysUntil = Math.ceil((TRIP_CONFIG.startDate - now) / (1000 * 60 * 60 * 24));
                 if (mobileDateEl) mobileDateEl.textContent = `Trip starts in ${daysUntil} days`;
+                if (mobileTripDaysEl) mobileTripDaysEl.textContent = `Trip starts in ${daysUntil} days`;
                 if (mobileProgressEl) mobileProgressEl.style.width = '0%';
-                if (mobileActivityEl) mobileActivityEl.innerHTML = '<div style="background: #FFF5E6; padding: 10px; border-radius: 8px; text-align: center;">🎉 Get Ready!<br><small>Your adventure begins soon!</small></div>';
+                if (mobileActivityEl) mobileActivityEl.innerHTML = '🎉 Get Ready!<br><span style="font-size: 0.85rem; opacity: 0.9;">Your Azerbaijan adventure begins soon!</span>';
             } else if (now > TRIP_CONFIG.endDate) {
                 // After trip
                 if (mobileDateEl) mobileDateEl.textContent = 'Trip completed!';
