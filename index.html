@@ -103,21 +103,34 @@
             position: relative;
         }
 
-        /* Visual hint for horizontal scrolling on mobile */
+        /* Visual hints for horizontal scrolling on mobile - both sides */
+        .nav-container::before,
         .nav-container::after {
             content: '';
             position: absolute;
-            right: 0;
             top: 0;
             bottom: 0;
-            width: 40px;
-            background: linear-gradient(to left, rgba(255,255,255,0.95), transparent);
+            width: 30px;
             pointer-events: none;
             opacity: 0;
             transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        /* Left fade indicator */
+        .nav-container::before {
+            left: 0;
+            background: linear-gradient(to right, rgba(255,255,255,0.95), transparent);
+        }
+
+        /* Right fade indicator */
+        .nav-container::after {
+            right: 0;
+            background: linear-gradient(to left, rgba(255,255,255,0.95), transparent);
         }
 
         @media (max-width: 480px) {
+            .nav-container::before,
             .nav-container::after {
                 opacity: 1;
             }
@@ -497,9 +510,16 @@
             .nav {
                 display: flex;
                 flex-wrap: nowrap;
-                overflow-x: scroll;
+                overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
                 padding: 10px;
+                justify-content: flex-start;
+                scroll-behavior: smooth;
+                scroll-snap-type: x proximity;
+            }
+
+            .nav-btn {
+                scroll-snap-align: start;
             }
             
             .nav::-webkit-scrollbar {
