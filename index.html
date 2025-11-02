@@ -1034,6 +1034,315 @@
         html {
             scroll-behavior: smooth;
         }
+
+        /* Booking Info Button */
+        .info-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #0092BC, #00AF66);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+            box-shadow: 0 2px 6px rgba(0, 146, 188, 0.3);
+        }
+
+        .info-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 146, 188, 0.5);
+        }
+
+        .info-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Side Panel for Desktop */
+        .booking-side-panel {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 450px;
+            height: 100vh;
+            background: white;
+            box-shadow: -4px 0 20px rgba(0,0,0,0.2);
+            z-index: 2000;
+            transition: right 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .booking-side-panel.open {
+            right: 0;
+        }
+
+        /* Modal Overlay for Mobile */
+        .booking-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(2px);
+        }
+
+        .booking-modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Modal for Mobile */
+        .booking-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 90%;
+            max-width: 500px;
+            max-height: 85vh;
+            background: white;
+            border-radius: 16px;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .booking-modal.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Panel Header */
+        .booking-panel-header {
+            background: linear-gradient(135deg, #0092BC 0%, #00AF66 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .booking-panel-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .booking-panel-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 24px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            line-height: 1;
+        }
+
+        .booking-panel-close:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+
+        /* Panel Content */
+        .booking-panel-content {
+            padding: 25px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .booking-detail-row {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #E1E8ED;
+        }
+
+        .booking-detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .booking-detail-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .booking-detail-value {
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* Copy Button */
+        .copy-btn {
+            background: #F8F9FA;
+            border: 1px solid #E1E8ED;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            color: var(--primary-blue);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+
+        .copy-btn.copied {
+            background: var(--primary-green);
+            color: white;
+            border-color: var(--primary-green);
+        }
+
+        /* Action Buttons */
+        .booking-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .action-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+
+        .action-btn-call {
+            background: #00AF66;
+            color: white;
+        }
+
+        .action-btn-call:hover {
+            background: #009955;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 175, 102, 0.3);
+        }
+
+        .action-btn-email {
+            background: #0092BC;
+            color: white;
+        }
+
+        .action-btn-email:hover {
+            background: #007A9E;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 146, 188, 0.3);
+        }
+
+        .action-btn-map {
+            background: #E4002B;
+            color: white;
+        }
+
+        .action-btn-map:hover {
+            background: #C40024;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(228, 0, 43, 0.3);
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-confirmed {
+            background: #E8F8F3;
+            color: #00AF66;
+        }
+
+        .status-prepaid {
+            background: #E6F4F8;
+            color: #0092BC;
+        }
+
+        /* Important Notes */
+        .booking-note {
+            background: #FFF5E6;
+            border-left: 4px solid #FDB813;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+
+        /* Responsive: Use Modal on Mobile, Side Panel on Desktop */
+        @media (min-width: 769px) {
+            .booking-modal {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .booking-side-panel {
+                display: none !important;
+            }
+
+            .info-btn {
+                font-size: 0.8rem;
+                padding: 5px 10px;
+            }
+        }
         
         /* Back to Top Button */
         .back-to-top {
@@ -1810,7 +2119,10 @@
 
             <div class="schedule-item">
                 <span class="time-badge" contenteditable="true">8:00-8:30 PM</span>
-                <h3 contenteditable="true">Check-in at Boutique Hotel Baku</h3>
+                <h3 contenteditable="true">
+                    Check-in at Boutique Hotel Baku
+                    <button class="info-btn" onclick="showBookingInfo('day1-hotel')">ℹ️ Info</button>
+                </h3>
                 <ul>
                     <li contenteditable="true">Get settled, freshen up</li>
                     <li contenteditable="true">Ask reception for Baku city map and restaurant recommendations</li>
@@ -1927,6 +2239,14 @@
                 <strong>Driving today:</strong> Minimal (just to/from Old City)<br>
                 <strong>Sunset:</strong> 5:31 PM
             </div>
+
+            <div class="schedule-item">
+                <h3>
+                    🏨 Accommodation: East Legend Hotel
+                    <button class="info-btn" onclick="showBookingInfo('day3-hotel')">ℹ️ Info</button>
+                </h3>
+                <p>Check-in today, staying for 2 nights (Nov 16-18)</p>
+            </div>
         </div>
 
         <!-- Day 3 -->
@@ -2039,7 +2359,10 @@
 
             <div class="schedule-item">
                 <span class="time-badge">5:00-5:45 PM</span>
-                <h3>Arrive Pik Palace Shahdag & Check-in</h3>
+                <h3>
+                    Arrive Pik Palace Shahdag & Check-in
+                    <button class="info-btn" onclick="showBookingInfo('day4-hotel')">ℹ️ Info</button>
+                </h3>
                 <ul>
                     <li>Address: Gusar-Laza Road, Km 29, Qusar District</li>
                     <li>Ask reception about open restaurants and spa availability</li>
@@ -2145,6 +2468,14 @@
                 <strong>Total driving today:</strong> 435 km, 6+ hours (longest driving day)<br>
                 <strong>Sunset:</strong> 5:25 PM
             </div>
+
+            <div class="schedule-item">
+                <h3>
+                    🏨 Accommodation: Gabala Karvansaray Hotel
+                    <button class="info-btn" onclick="showBookingInfo('day6-hotel')">ℹ️ Info</button>
+                </h3>
+                <p>Check-in today, staying for 2 nights (Nov 20-22)</p>
+            </div>
         </div>
 
         <!-- Day 7 -->
@@ -2205,7 +2536,10 @@
 
             <div class="schedule-item">
                 <span class="time-badge">2:00-2:30 PM</span>
-                <h3>Check-in at Marxal Resort & Spa</h3>
+                <h3>
+                    Check-in at Marxal Resort & Spa
+                    <button class="info-btn" onclick="showBookingInfo('day8-hotel')">ℹ️ Info</button>
+                </h3>
                 <ul>
                     <li>Location: Kish Village</li>
                     <li>5-star luxury resort: 206 rooms + 168 cottages</li>
@@ -3606,6 +3940,282 @@
                 }
             }, 5000);
         }
+    </script>
+
+    <!-- Booking Info Overlay for Mobile -->
+    <div class="booking-modal-overlay" id="bookingOverlay" onclick="closeBookingInfo()"></div>
+
+    <!-- Booking Info Modal for Mobile -->
+    <div class="booking-modal" id="bookingModal">
+        <div class="booking-panel-header">
+            <h3 id="modalTitle">Booking Details</h3>
+            <button class="booking-panel-close" onclick="closeBookingInfo()">×</button>
+        </div>
+        <div class="booking-panel-content" id="modalContent">
+            <!-- Content will be dynamically inserted -->
+        </div>
+    </div>
+
+    <!-- Booking Info Side Panel for Desktop -->
+    <div class="booking-side-panel" id="bookingSidePanel">
+        <div class="booking-panel-header">
+            <h3 id="panelTitle">Booking Details</h3>
+            <button class="booking-panel-close" onclick="closeBookingInfo()">×</button>
+        </div>
+        <div class="booking-panel-content" id="panelContent">
+            <!-- Content will be dynamically inserted -->
+        </div>
+    </div>
+
+    <!-- Booking Data -->
+    <script>
+        const bookingData = {
+            'day1-hotel': {
+                name: 'Boutique Hotel Baku',
+                bookingNumber: '1567946832075487',
+                pin: '9571',
+                room: 'Economy Room (1 single bed)',
+                checkIn: 'Saturday, Nov 15, 2025 at 14:00-15:00',
+                checkOut: 'Sunday, Nov 16, 2025 at 11:30-12:00',
+                price: 'SAR 96.19 (~$26 USD)',
+                status: 'Confirmed & Prepaid',
+                address: '139 Gövset Quliyev küçəsi, Baku, AZ1000, Azerbaijan',
+                phone: '+994-12-4930101, +994-502518311',
+                email: 'boutiquehotel.4d852pj6q@trips.booking.com',
+                meals: 'No meals included',
+                notes: 'Please provide all guest names at the time of booking. The name on the bank card used for payment must match the guest name.',
+                mapUrl: 'https://www.google.com/maps/search/?api=1&query=Boutique+Hotel+Baku+139+Gövset+Quliyev+küçəsi+Baku+Azerbaijan'
+            },
+            'day3-hotel': {
+                name: 'East Legend Hotel',
+                bookingNumber: '1567946794629514',
+                pin: '3905',
+                room: 'Standard Single Room',
+                checkIn: 'Sunday, Nov 16, 2025 at 14:00',
+                checkOut: 'Tuesday, Nov 18, 2025 at 12:00',
+                price: 'SAR 227.84 (~$61 USD)',
+                status: 'Confirmed & Prepaid',
+                address: '38 Khanlar St, Baku, AZ1003, Azerbaijan',
+                phone: '+994-12-4911773',
+                email: null,
+                meals: 'Breakfast included for 1 guest per room (Nov 17, Nov 18)',
+                notes: null,
+                mapUrl: 'https://www.google.com/maps/search/?api=1&query=East+Legend+Hotel+38+Khanlar+St+Baku+Azerbaijan'
+            },
+            'day4-hotel': {
+                name: 'Pik Palace, Shahdag',
+                bookingNumber: '1567946794732244',
+                pin: '9017',
+                room: 'Deluxe King Or Two Double Bed Room',
+                checkIn: 'Tuesday, Nov 18, 2025 at 15:00',
+                checkOut: 'Thursday, Nov 20, 2025 at 12:00',
+                price: 'SAR 570.45 (~$152 USD)',
+                status: 'Confirmed & Prepaid',
+                address: 'Gusar-Laza Road Km 29 Shahdag, Qusar, AZ3800, Azerbaijan',
+                phone: '+994-12-3102010',
+                email: 'pikpalace.4d84z2p0je@trips.trip.com',
+                meals: 'Breakfast included for 1 guest per room',
+                notes: '⚠️ IMPORTANT: November is off-season. Call ahead to confirm hotel operations and which facilities are available. Most activities (skiing, cable cars) will be closed.',
+                mapUrl: 'https://www.google.com/maps/search/?api=1&query=Pik+Palace+Shahdag+Gusar+Azerbaijan'
+            },
+            'day6-hotel': {
+                name: 'Gabala Karvansaray Hotel',
+                bookingNumber: '5600500358',
+                pin: '5706',
+                room: 'Standard King Room',
+                checkIn: 'Thursday, Nov 20, 2025 at 14:00',
+                checkOut: 'Saturday, Nov 22, 2025 at 12:00',
+                price: 'Price included in package',
+                status: 'Confirmed & Prepaid',
+                address: 'Karvansaray Hotel Qabala, 3600 Gabala, Azerbaijan',
+                phone: '+994-50-4911881',
+                email: null,
+                meals: null,
+                notes: null,
+                mapUrl: 'https://www.google.com/maps/search/?api=1&query=Gabala+Karvansaray+Hotel+Azerbaijan'
+            },
+            'day8-hotel': {
+                name: 'Marxal Resort & Spa',
+                bookingNumber: '6174939538',
+                pin: '7775',
+                room: 'Standard Double Room',
+                checkIn: 'Saturday, Nov 22, 2025 at 14:00',
+                checkOut: 'Monday, Nov 24, 2025 at 12:00',
+                price: 'Price included in package',
+                status: 'Confirmed & Prepaid',
+                address: 'Sheki city, AZ5500 Sheki, Azerbaijan',
+                phone: '+994-12-5853585',
+                email: null,
+                meals: null,
+                notes: null,
+                mapUrl: 'https://www.google.com/maps/search/?api=1&query=Marxal+Resort+Spa+Sheki+Azerbaijan'
+            }
+        };
+
+        function showBookingInfo(hotelId) {
+            const hotel = bookingData[hotelId];
+            if (!hotel) return;
+
+            const content = generateBookingContent(hotel);
+
+            // Set content for both modal and side panel
+            document.getElementById('modalContent').innerHTML = content;
+            document.getElementById('panelContent').innerHTML = content;
+            document.getElementById('modalTitle').textContent = hotel.name;
+            document.getElementById('panelTitle').textContent = hotel.name;
+
+            // Show based on screen size
+            if (window.innerWidth <= 768) {
+                // Mobile: show modal
+                document.getElementById('bookingOverlay').classList.add('show');
+                document.getElementById('bookingModal').classList.add('show');
+                document.body.style.overflow = 'hidden';
+            } else {
+                // Desktop: show side panel
+                document.getElementById('bookingSidePanel').classList.add('open');
+            }
+        }
+
+        function closeBookingInfo() {
+            document.getElementById('bookingOverlay').classList.remove('show');
+            document.getElementById('bookingModal').classList.remove('show');
+            document.getElementById('bookingSidePanel').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function generateBookingContent(hotel) {
+            let html = '';
+
+            // Status
+            html += `<div class="booking-detail-row">
+                <div class="booking-detail-label">📋 Status</div>
+                <div class="booking-detail-value">
+                    <span class="status-badge status-confirmed">✓ ${hotel.status}</span>
+                </div>
+            </div>`;
+
+            // Booking Number
+            html += `<div class="booking-detail-row">
+                <div class="booking-detail-label">🔢 Booking Number</div>
+                <div class="booking-detail-value">
+                    <span>${hotel.bookingNumber}</span>
+                    <button class="copy-btn" onclick="copyToClipboard('${hotel.bookingNumber}', this)">Copy</button>
+                </div>
+            </div>`;
+
+            // PIN
+            html += `<div class="booking-detail-row">
+                <div class="booking-detail-label">🔑 PIN</div>
+                <div class="booking-detail-value">
+                    <span>${hotel.pin}</span>
+                    <button class="copy-btn" onclick="copyToClipboard('${hotel.pin}', this)">Copy</button>
+                </div>
+            </div>`;
+
+            // Room Type
+            html += `<div class="booking-detail-row">
+                <div class="booking-detail-label">🛏️ Room Type</div>
+                <div class="booking-detail-value">${hotel.room}</div>
+            </div>`;
+
+            // Check-in
+            html += `<div class="booking-detail-row">
+                <div class="booking-detail-label">⏰ Check-in</div>
+                <div class="booking-detail-value">${hotel.checkIn}</div>
+            </div>`;
+
+            // Check-out
+            html += `<div class="booking-detail-row">
+                <div class="booking-detail-label">⏰ Check-out</div>
+                <div class="booking-detail-value">${hotel.checkOut}</div>
+            </div>`;
+
+            // Price
+            html += `<div class="booking-detail-row">
+                <div class="booking-detail-label">💰 Price</div>
+                <div class="booking-detail-value">${hotel.price}</div>
+            </div>`;
+
+            // Meals
+            if (hotel.meals) {
+                html += `<div class="booking-detail-row">
+                    <div class="booking-detail-label">🍳 Meals</div>
+                    <div class="booking-detail-value">${hotel.meals}</div>
+                </div>`;
+            }
+
+            // Address
+            html += `<div class="booking-detail-row">
+                <div class="booking-detail-label">📍 Address</div>
+                <div class="booking-detail-value">${hotel.address}</div>
+            </div>`;
+
+            // Phone
+            html += `<div class="booking-detail-row">
+                <div class="booking-detail-label">📞 Phone</div>
+                <div class="booking-detail-value">${hotel.phone}</div>
+            </div>`;
+
+            // Email
+            if (hotel.email) {
+                html += `<div class="booking-detail-row">
+                    <div class="booking-detail-label">📧 Email</div>
+                    <div class="booking-detail-value" style="word-break: break-all;">${hotel.email}</div>
+                </div>`;
+            }
+
+            // Notes
+            if (hotel.notes) {
+                html += `<div class="booking-note">
+                    <strong>⚠️ Important:</strong><br>${hotel.notes}
+                </div>`;
+            }
+
+            // Action Buttons
+            html += `<div class="booking-actions">
+                <a href="tel:${hotel.phone}" class="action-btn action-btn-call">
+                    📞 Call Hotel
+                </a>`;
+
+            if (hotel.email) {
+                html += `<a href="mailto:${hotel.email}" class="action-btn action-btn-email">
+                    📧 Email
+                </a>`;
+            }
+
+            html += `<a href="${hotel.mapUrl}" target="_blank" class="action-btn action-btn-map">
+                    🗺️ View Map
+                </a>
+            </div>`;
+
+            return html;
+        }
+
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✓ Copied!';
+                button.classList.add('copied');
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                button.textContent = '✗ Failed';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                }, 2000);
+            });
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeBookingInfo();
+            }
+        });
     </script>
 </body>
 </html>
